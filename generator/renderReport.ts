@@ -1,7 +1,7 @@
-import * as marked from "marked";
-import { readFileSync, writeFileSync } from "fs";
-import { join } from "path";
-import { width, height, margin } from "../page/settings";
+import * as marked from 'marked';
+import { readFileSync, writeFileSync } from 'fs';
+import { join } from 'path';
+import { width, height, margin } from '../page/settings';
 
 const maxWidth = width + margin.left + margin.right + 20;
 
@@ -34,8 +34,8 @@ export function renderReport(): void {
   </body>
 </html>`;
 
-  const markdown = readFileSync(join(process.cwd(), "report.md"), {
-    encoding: "utf-8",
+  const markdown = readFileSync(join(process.cwd(), 'report.md'), {
+    encoding: 'utf-8',
   });
 
   const rendered = mkDocument(marked(markdown)).replace(
@@ -45,8 +45,8 @@ export function renderReport(): void {
     }"></svg>`
   );
 
-  console.log("Writing index.html");
-  writeFileSync(join(process.cwd(), "index.html"), rendered, {
-    encoding: "utf-8",
+  console.log('Writing index.html');
+  writeFileSync(join(process.cwd(), 'index.html'), rendered, {
+    encoding: 'utf-8',
   });
 }

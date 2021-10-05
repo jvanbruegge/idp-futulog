@@ -1,15 +1,15 @@
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from "fs";
-import { join } from "path";
-import { renderReport } from "./renderReport";
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
+import { join } from 'path';
+import { renderReport } from './renderReport';
 
 renderReport();
 
-const path = join(process.cwd(), "static");
+const path = join(process.cwd(), 'static');
 if (!existsSync(path)) {
   mkdirSync(path);
 }
 
-type Office = "Berlin" | "Munich" | "Stuttgart" | "Helsinki" | "Tampere";
+type Office = 'Berlin' | 'Munich' | 'Stuttgart' | 'Helsinki' | 'Tampere';
 
 type Sorted = {
   [date: string]: {
@@ -17,12 +17,12 @@ type Sorted = {
   };
 };
 
-const data = readFileSync(join(__dirname, "registrations.csv"), {
-  encoding: "utf-8",
+const data = readFileSync(join(__dirname, 'registrations.csv'), {
+  encoding: 'utf-8',
 })
   .split(/\n/g)
-  .filter((x) => x !== "")
-  .map((line) => {
+  .filter(x => x !== '')
+  .map(line => {
     const l = line.split(/,/g);
     return {
       name: l[0],
@@ -102,25 +102,25 @@ for (const [_, p2s] of Object.entries(connections)) {
   }
 }
 
-console.log("numConnections", numConnections);
-console.log("maxConnections", maxConnections);
+console.log('numConnections', numConnections);
+console.log('maxConnections', maxConnections);
 
 const people = data
-  .map((x) => x.name)
+  .map(x => x.name)
   .reduce((acc, curr) => acc.add(curr), new Set<string>());
 
-console.log("numPeople", people.size);
-console.log("numDates", Object.keys(sorted).length);
+console.log('numPeople', people.size);
+console.log('numDates', Object.keys(sorted).length);
 
 writePairsBar(connectionsHist);
 
 function writePairsBar(data: { [x: number]: number }): void {
   const str =
-    "x,y\n" +
+    'x,y\n' +
     Object.entries(data)
       .map(([x, y]) => `${x},${y}`)
-      .join("\n");
+      .join('\n');
 
-  console.log("writing data for pairs_bars");
-  writeFileSync(join(path, "pairs_bars.csv"), str, { encoding: "utf-8" });
+  console.log('writing data for pairs_bars');
+  writeFileSync(join(path, 'pairs_bars.csv'), str, { encoding: 'utf-8' });
 }
