@@ -9,16 +9,13 @@ import {
 } from "d3";
 import { margin, width, height } from "./settings";
 
-csv(
-  "/pairs_bars.csv",
-  (d: any) => ({ x: parseInt(d.x), y: parseInt(d.y) }),
-).then(renderHistogram);
+csv("/pairs_bars.csv", (d: any) => ({
+  x: parseInt(d.x),
+  y: parseInt(d.y),
+})).then(renderHistogram);
 
 function renderHistogram(data: Array<{ x: number; y: number }>) {
-  const svg = select("#viz") //TODO: Put in markdown
-    .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
+  const svg = select("#pairs_bars")
     .append("g")
     .attr("transform", `translate(${margin.left},${margin.top})`);
 

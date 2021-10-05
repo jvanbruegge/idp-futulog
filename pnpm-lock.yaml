@@ -4,6 +4,7 @@ specifiers:
   '@parcel/config-default': ^2.0.0-rc.0
   '@types/d3': ^7.0.0
   '@types/d3-force': ^3.0.3
+  '@types/marked': ^3.0.1
   d3: ^7.1.1
   d3-force: ^3.0.0
   marked: ^3.0.4
@@ -15,6 +16,7 @@ specifiers:
 dependencies:
   '@types/d3': 7.0.0
   '@types/d3-force': 3.0.3
+  '@types/marked': 3.0.1
   d3: 7.1.1
   d3-force: 3.0.0
 
@@ -1619,6 +1621,10 @@ packages:
     dependencies:
       '@types/node': 16.10.2
     dev: true
+
+  /@types/marked/3.0.1:
+    resolution: {integrity: sha512-jry/WUAC511P2NBCeiCkfTRCN2VXobeeQa8p8gImOYsRfnuIVfeEsqOJ1pk+CzCwfMCdv3dkTQRCYaNkkFGtxw==}
+    dev: false
 
   /@types/node/16.10.2:
     resolution: {integrity: sha512-zCclL4/rx+W5SQTzFs9wyvvyCwoK9QtBpratqz2IYJ3O8Umrn0m3nsTv0wQBk9sRGpvUe9CwPDrQFB10f1FIjQ==}

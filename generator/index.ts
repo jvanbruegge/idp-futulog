@@ -1,5 +1,8 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from "fs";
 import { join } from "path";
+import { renderReport } from "./renderReport";
+
+renderReport();
 
 const path = join(process.cwd(), "static");
 if (!existsSync(path)) {
