@@ -4,21 +4,23 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "parcel index.html",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build:data": "ts-node generator/index.ts",
+    "start": "npm run build:data && parcel index.html"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@types/d3": "^7.0.0",
     "@types/d3-force": "^3.0.3",
     "d3": "^7.1.1",
-    "d3-force": "^3.0.0",
-    "marked": "^3.0.4"
+    "d3-force": "^3.0.0"
   },
   "devDependencies": {
     "@parcel/config-default": "^2.0.0-rc.0",
-    "@types/d3": "^7.0.0",
+    "marked": "^3.0.4",
     "parcel": "^2.0.0-rc.0",
-    "parcel-reporter-static-files-copy": "^1.3.0"
+    "parcel-reporter-static-files-copy": "^1.3.0",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.3"
   }
 }
