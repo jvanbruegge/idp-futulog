@@ -10,7 +10,7 @@ export function renderReport(): void {
     `<!DOCTYPE html>
 <html>
   <head>
-    <title>Force diagram</title>
+    <title>Project report: futuLog</title>
     <style>
       .bar {
         fill: steelblue;
@@ -23,6 +23,9 @@ export function renderReport(): void {
       }
       main {
         width: ${maxWidth}px;
+      }
+      h1 {
+        text-align: center;
       }
     </style>
   </head>
