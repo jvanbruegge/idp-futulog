@@ -9,7 +9,7 @@ import {
 } from 'd3';
 import { margin, width, height } from './settings';
 
-csv('/pairs_bars.csv', (d: any) => ({
+csv('./pairs_bars.csv', (d: any) => ({
   x: parseInt(d.x),
   y: parseInt(d.y),
 })).then(renderHistogram);
