@@ -5,7 +5,7 @@
   "scripts": {
     "build": "npm run build:data && npm run build:page",
     "build:data": "ts-node generator/index.ts",
-    "build:page": "parcel build index.html",
+    "build:page": "parcel build --public-url './' index.html",
     "start": "npm run build:data && parcel index.html",
     "format": "prettier --write '**/*.{ts,md}'"
   },
