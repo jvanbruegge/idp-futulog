@@ -15,12 +15,30 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Decrypt the dataset
+      - name: Fetch the latest dataset
         run: |
-          echo "$KEY" > pass.txt
-          gpg --batch --passphrase-file pass.txt --output generator/registrations.csv --decrypt generator/registrations.csv.gpg
+          echo "$KUBE_YAML" > kubeconfig
+
+          R=$(aws sts assume-role --role-arn "$AWS_ROLE_TO_ASSUME" --role-session-name AWSCLI-Session)
+          export AWS_ACCESS_KEY_ID=$(echo "$R"|jq -r '.Credentials.AccessKeyId')
+          export AWS_SECRET_ACCESS_KEY=$(echo "$R"|jq -r '.Credentials.SecretAccessKey')
+          export AWS_SESSION_TOKEN=$(echo "$R"|jq -r '.Credentials.SessionToken')
+
+          echo "Fetching pod id of futulog"
+          export POD_ID=$(kubectl get pods -n play -l=app=futulog -o json | jq -r '.items[].metadata.name')
+
+          echo "Retrieving dataset"
+          kubectl exec -n play -t $POD_ID -- bash -c \
+            "psql \$DB_URL -c \"\\copy (SELECT * FROM registrations WHERE date <= CURRENT_DATE AND workmode = 'Office') TO STDOUT WITH CSV\"" \
+            > generator/registrations.csv
         env:
-          KEY: ${{ secrets.KEY }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_ROLE_TO_ASSUME: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          KUBE_YAML: ${{ secrets.KUBE_YAML }}
+          AWS_DEFAULT_REGION: eu-central-1
+          KUBECONFIG: kubeconfig
+          
 
       - name: Build report
         run: pnpm run build
