@@ -1,7 +1,12 @@
-import * as marked from 'marked';
+import { Remarkable } from 'remarkable';
+const toc = require('markdown-toc');
 import { readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
 import { width, height, margin } from '../page/settings';
+
+const md = new Remarkable({
+  html: true,
+});
 
 const maxWidth = width + margin.left + margin.right + 20;
 
@@ -41,7 +46,7 @@ export function renderReport(): void {
     encoding: 'utf-8',
   });
 
-  const rendered = mkDocument(marked(markdown)).replace(
+  const rendered = mkDocument(md.render(toc.insert(markdown))).replace(
     /"><\/svg>/,
     `" width="${width + margin.left + margin.right}" height="${
       height + margin.top + margin.bottom
