@@ -14,6 +14,7 @@ specifiers:
   parcel-reporter-static-files-copy: ^1.3.0
   prettier: ^2.4.1
   remarkable: ^2.0.1
+  remarkable-plugin-heading-id: ^1.0.0
   ts-node: ^10.2.1
   typescript: ^4.4.3
 
@@ -33,6 +34,7 @@ devDependencies:
   parcel-reporter-static-files-copy: 1.3.0
   prettier: 2.4.1
   remarkable: 2.0.1
+  remarkable-plugin-heading-id: 1.0.0_remarkable@2.0.1
   ts-node: 10.2.1_typescript@4.4.3
   typescript: 4.4.3
 
@@ -5382,6 +5384,14 @@ packages:
   /relateurl/0.2.7:
     resolution: {integrity: sha1-VNvzd+UUQKypCkzSdGANP/LYiKk=}
     engines: {node: '>= 0.10'}
+    dev: true
+
+  /remarkable-plugin-heading-id/1.0.0_remarkable@2.0.1:
+    resolution: {integrity: sha512-UlkYVGFOCBukpYRU1T7g67alTLzSeDN0W+6gsUeJcTnz1hOhGa4fHI2LzNJjqXpUuU/s+SaAQiweOp4zYDCKtQ==}
+    peerDependencies:
+      remarkable: 2.x
+    dependencies:
+      remarkable: 2.0.1
     dev: true
 
   /remarkable/1.7.4:

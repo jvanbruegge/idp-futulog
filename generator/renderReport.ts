@@ -1,11 +1,14 @@
 import { Remarkable } from 'remarkable';
 const toc = require('markdown-toc');
+const { remarkablePluginHeadingId } = require('remarkable-plugin-heading-id');
 import { readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
 import { width, height, margin } from '../page/settings';
 
 const md = new Remarkable({
   html: true,
+}).use(remarkablePluginHeadingId, {
+  createId: (_: number, str: string) => str.toLowerCase(),
 });
 
 const maxWidth = width + margin.left + margin.right + 20;
@@ -32,6 +35,9 @@ export function renderReport(): void {
       h1 {
         text-align: center;
       }
+      p {
+        text-align: justify;
+      }
     </style>
   </head>
   <body>
@@ -46,7 +52,13 @@ export function renderReport(): void {
     encoding: 'utf-8',
   });
 
-  const rendered = mkDocument(md.render(toc.insert(markdown))).replace(
+  const rendered = mkDocument(
+    md.render(
+      toc.insert(markdown, {
+        bullets: '1.',
+      })
+    )
+  ).replace(
     /"><\/svg>/,
     `" width="${width + margin.left + margin.right}" height="${
       height + margin.top + margin.bottom
