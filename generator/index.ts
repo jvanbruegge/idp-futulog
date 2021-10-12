@@ -1,4 +1,5 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
+import * as dayjs from 'dayjs';
 import { join } from 'path';
 import { renderReport } from './renderReport';
 
@@ -48,62 +49,99 @@ for (const d of data) {
   y.add(d.name);
 }
 
+let dates = [data[0].date];
+for (const { date } of data) {
+  let last = dates[dates.length - 1];
+  if (date === last) continue;
+
+  let lastDate = dayjs(last + 'T00:00:00.000Z');
+  const newDate = dayjs(date + 'T00:00:00.000Z');
+  while (lastDate.isBefore(newDate)) {
+    lastDate = lastDate.add(1, 'day');
+    dates.push(lastDate.format('YYYY-MM-DD'));
+  }
+}
+
 let connections = {};
-for (const [date, x] of Object.entries(sorted)) {
-  for (const [office, s] of Object.entries(x)) {
-    let tmpConnections: { [x: string]: Set<string> } = {};
+for (let i = 0; i < dates.length; i++) {
+  const date = dates[i];
+  const lastData = connections[dates[i - 1]];
+  let x = sorted[date];
+  if (!x) {
+    if (lastData) connections[date] = lastData;
+    continue;
+  }
 
-    for (const p1 of s.keys()) {
-      for (const p2 of s.keys()) {
-        if (p1 === p2) continue;
+  let result = lastData ? JSON.parse(JSON.stringify(lastData)) : {};
 
-        let [x, y] = p1.localeCompare(p2) < 0 ? [p1, p2] : [p2, p1];
-        let z = tmpConnections[x];
-        if (!z) {
-          z = new Set<string>();
-          tmpConnections[x] = z;
+  for (const [office, people] of Object.entries(x)) {
+    let z = result[office];
+    if (!z) {
+      z = {};
+    }
+
+    for (const p1 of people.keys()) {
+      for (const p2 of people.keys()) {
+        if (p1.localeCompare(p2) >= 0) continue;
+
+        let w = z[p1];
+        if (!w) {
+          w = {};
+          z[p1] = w;
         }
-        z.add(y);
+
+        w[p2] = w[p2] ? w[p2] + 1 : 1;
       }
     }
 
-    for (const [p1, p2s] of Object.entries(tmpConnections)) {
-      let x = connections[p1];
-      if (!x) {
-        x = {};
-        connections[p1] = x;
-      }
-
-      for (const p2 of p2s.keys()) {
-        if (!x[p2]) {
-          x[p2] = 0;
-        }
-        x[p2]++;
-      }
+    if (Object.keys(z).length > 0) {
+      result[office] = z;
     }
+  }
+
+  if (Object.keys(result).length > 0) {
+    connections[date] = result;
   }
 }
 
-let connectionsHist = {};
-let numConnections = 0;
+pairsBars();
 
-let maxConnections = 0;
-for (const [_, p2s] of Object.entries(connections)) {
-  for (const [_, x] of Object.entries(p2s)) {
-    if (x > maxConnections) {
-      maxConnections = x;
-    }
+function pairsBars() {
+  let histogram = {};
 
-    if (!connectionsHist[x]) {
-      connectionsHist[x] = 0;
+  for (const [date, x] of Object.entries(connections)) {
+    histogram[date] = {};
+    let maxConnections = 0;
+    let maxNumConnections = 0;
+
+    for (const [office, y] of Object.entries(x)) {
+      histogram[date][office] = {};
+      let a = histogram[date][office];
+      let b = 0;
+
+      for (const [_, p2s] of Object.entries(y)) {
+        for (const [_, n] of Object.entries(p2s)) {
+          a[n] = a[n] ? a[n] + 1 : 1;
+          if (n > maxConnections) {
+            maxConnections = n;
+          }
+          if (a[n] > b) {
+            b = a[n];
+          }
+        }
+      }
+
+      maxNumConnections += b;
     }
-    connectionsHist[x]++;
-    numConnections++;
+    histogram[date].maxX = maxConnections;
+    histogram[date].maxY = maxNumConnections;
   }
-}
 
-console.log('numConnections', numConnections);
-console.log('maxConnections', maxConnections);
+  console.log('Writing data for pairs_bars');
+  writeFileSync(join(path, 'pairs_bars.json'), JSON.stringify(histogram), {
+    encoding: 'utf-8',
+  });
+}
 
 const people = data
   .map(x => x.name)
@@ -111,16 +149,3 @@ const people = data
 
 console.log('numPeople', people.size);
 console.log('numDates', Object.keys(sorted).length);
-
-writePairsBar(connectionsHist);
-
-function writePairsBar(data: { [x: number]: number }): void {
-  const str =
-    'x,y\n' +
-    Object.entries(data)
-      .map(([x, y]) => `${x},${y}`)
-      .join('\n');
-
-  console.log('writing data for pairs_bars');
-  writeFileSync(join(path, 'pairs_bars.csv'), str, { encoding: 'utf-8' });
-}

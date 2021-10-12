@@ -22,4 +22,20 @@ The application that was developed in turn was later called **futuLog**.
 
 TODO: Explain what what the diagrams say
 
-<svg id="pairs_bars"></svg>
+<style>
+#pairs_bars_date {
+  width: 100%;
+}
+.bar {
+  fill: steelblue;
+}
+</style>
+
+<div>
+  <svg id="pairs_bars"></svg>
+  <div class="line">
+    <label for="pairs_bars_date">Date: <span id="pairs_bars_value"></span></label>
+    <button id="pairs_bars_play">Play</button>
+  </div>
+  <input id="pairs_bars_date" type="range"></input>
+</div>
