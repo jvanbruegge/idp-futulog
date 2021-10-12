@@ -104,7 +104,48 @@ for (let i = 0; i < dates.length; i++) {
   }
 }
 
+const people = data
+  .map(x => x.name)
+  .reduce((acc, curr) => acc.add(curr), new Set<string>());
+
+console.log('numPeople', people.size);
+console.log('numDates', Object.keys(sorted).length);
+
 pairsBars();
+forceGraph();
+
+function forceGraph() {
+  const data = connections[dates[dates.length - 1]];
+  let ids = new Set<number>();
+  const mapping = [...people.keys()].reduce((acc, curr) => {
+    let id: number | undefined;
+    while (ids.has((id = Math.ceil(Math.random() * 10000)))) {}
+    ids.add(id);
+    acc.set(curr, id);
+    return acc;
+  }, new Map<string, number>());
+
+  let newData = {};
+  for (const [office, x] of Object.entries(data)) {
+    newData[office] = {};
+    for (const [p1, p2s] of Object.entries(x)) {
+      newData[office][mapping.get(p1)] = {};
+      for (const [p2, n] of Object.entries(p2s)) {
+        newData[office][mapping.get(p1)][mapping.get(p2)] = n;
+      }
+    }
+  }
+
+  const result = {
+    nodes: [...mapping.values()],
+    edges: newData,
+  };
+
+  console.log('Writing data for force_graph');
+  writeFileSync(join(path, 'force_graph.json'), JSON.stringify(result), {
+    encoding: 'utf-8',
+  });
+}
 
 function pairsBars() {
   let histogram = {};
@@ -142,10 +183,3 @@ function pairsBars() {
     encoding: 'utf-8',
   });
 }
-
-const people = data
-  .map(x => x.name)
-  .reduce((acc, curr) => acc.add(curr), new Set<string>());
-
-console.log('numPeople', people.size);
-console.log('numDates', Object.keys(sorted).length);

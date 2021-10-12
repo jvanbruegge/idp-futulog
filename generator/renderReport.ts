@@ -56,7 +56,7 @@ export function renderReport(): void {
       })
     )
   ).replace(
-    /"><\/svg>/,
+    /"><\/svg>/g,
     `" width="${width + margin.left + margin.right}" height="${
       height + margin.top + margin.bottom
     }"></svg>`
