@@ -75,7 +75,7 @@ function init(data: Data) {
         slider.value = `${next}`;
         span.textContent = dates[next];
         renderHistogram(dates[next], offices);
-      }, 250);
+      }, 150);
       button.textContent = 'Pause';
     }
   });
@@ -156,6 +156,7 @@ function makeRenderHistogram(
     let combined = {};
 
     for (const o of offices) {
+      if (!data[date][o]) continue;
       for (const [x, y] of Object.entries(data[date][o])) {
         combined[x] = (combined[x] ?? 0) + y;
       }
