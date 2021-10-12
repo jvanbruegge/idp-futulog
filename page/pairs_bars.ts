@@ -29,6 +29,16 @@ const offices: Office[] = [
   'Tampere',
 ];
 
+function getOffices(): Office[] {
+  return offices.reduce((acc, o) => {
+    const x = document.querySelector(`#pairs_bars_${o}`)! as HTMLInputElement;
+    if (x.checked) {
+      acc.push(o);
+    }
+    return acc;
+  }, [] as Office[]);
+}
+
 function init(data: Data) {
   const dates = Object.keys(data);
   const n = dates.length - 1;
@@ -50,7 +60,16 @@ function init(data: Data) {
   slider.addEventListener('input', ev => {
     const date = dates[parseInt((ev.target as HTMLInputElement).value)];
     span.textContent = date;
-    renderHistogram(date, offices);
+    renderHistogram(date);
+  });
+
+  offices.forEach(o => {
+    const x = document.querySelector(`#pairs_bars_${o}`)! as HTMLInputElement;
+    x.addEventListener('input', () => {
+      const date = dates[parseInt(slider.value)];
+      span.textContent = date;
+      renderHistogram(date);
+    });
   });
 
   const button = document.querySelector(
@@ -74,21 +93,22 @@ function init(data: Data) {
 
         slider.value = `${next}`;
         span.textContent = dates[next];
-        renderHistogram(dates[next], offices);
+        renderHistogram(dates[next]);
       }, 150);
       button.textContent = 'Pause';
     }
   });
 
-  renderHistogram(dates[n], offices);
+  renderHistogram(dates[n]);
 }
 
 function makeRenderHistogram(
   data: Data,
   maxX: number,
   maxY: number
-): (date: string, offices: Office[]) => void {
-  return function renderHistogram(date: string, offices: Office[]) {
+): (date: string) => void {
+  return function renderHistogram(date: string) {
+    const offices = getOffices();
     const top = select('#pairs_bars');
     top.selectChildren().remove();
 

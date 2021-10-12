@@ -36,6 +36,26 @@ TODO: Explain what what the diagrams say
   <div class="line">
     <label for="pairs_bars_date">Date: <span id="pairs_bars_value"></span></label>
     <button id="pairs_bars_play">Play</button>
+    <div class="office">
+      <input id="pairs_bars_Munich" type="checkbox" checked></input>
+      <label for="pairs_bars_Munich">Munich</label>
+    </div>
+    <div class="office">
+      <input id="pairs_bars_Berlin" type="checkbox" checked></input>
+      <label for="pairs_bars_Berlin">Berlin</label>
+    </div>
+    <div class="office">
+      <input id="pairs_bars_Stuttgart" type="checkbox" checked></input>
+      <label for="pairs_bars_Stuttgart">Stuttgart</label>
+    </div>
+    <div class="office">
+      <input id="pairs_bars_Helsinki" type="checkbox" checked></input>
+      <label for="pairs_bars_Helsinki">Helsinki</label>
+    </div>
+    <div class="office">
+      <input id="pairs_bars_Tampere" type="checkbox" checked></input>
+      <label for="pairs_bars_Tampere">Tampere</label>
+    </div>
   </div>
   <input id="pairs_bars_date" type="range"></input>
 </div>
