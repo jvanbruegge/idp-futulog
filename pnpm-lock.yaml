@@ -8,6 +8,7 @@ specifiers:
   '@types/remarkable': ^2.0.3
   d3: ^7.1.1
   d3-force: ^3.0.0
+  dayjs: ^1.10.7
   markdown-toc: ^1.2.0
   marked: ^3.0.4
   parcel: ^2.0.0-rc.0
@@ -21,6 +22,7 @@ specifiers:
 dependencies:
   d3: 7.1.1
   d3-force: 3.0.0
+  dayjs: 1.10.7
 
 devDependencies:
   '@parcel/config-default': 2.0.0-rc.0
@@ -2781,6 +2783,10 @@ packages:
       whatwg-mimetype: 2.3.0
       whatwg-url: 7.1.0
     dev: true
+
+  /dayjs/1.10.7:
+    resolution: {integrity: sha512-P6twpd70BcPK34K26uJ1KT3wlhpuOAPoMwJzpsIWUxHZ7wpmbdZL/hQqBDfz7hGurYSa5PhzdhDHtt319hL3ig==}
+    dev: false
 
   /debug/2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}

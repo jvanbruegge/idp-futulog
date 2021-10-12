@@ -20,9 +20,6 @@ export function renderReport(): void {
   <head>
     <title>Project report: futuLog</title>
     <style>
-      .bar {
-        fill: steelblue;
-      }
       svg text {
         font-size: 0.8rem;
       }
