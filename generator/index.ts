@@ -127,11 +127,13 @@ function forceGraph() {
 
   let newData = {};
   for (const [office, x] of Object.entries(data)) {
-    newData[office] = {};
     for (const [p1, p2s] of Object.entries(x)) {
-      newData[office][mapping.get(p1)] = {};
+      let y = newData[mapping.get(p1)] ?? {};
+      newData[mapping.get(p1)] = y;
       for (const [p2, n] of Object.entries(p2s)) {
-        newData[office][mapping.get(p1)][mapping.get(p2)] = n;
+        let obj = newData[mapping.get(p1)][mapping.get(p2)] ?? {};
+        newData[mapping.get(p1)][mapping.get(p2)] = obj;
+        obj[office] = n;
       }
     }
   }

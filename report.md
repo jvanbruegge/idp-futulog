@@ -64,4 +64,5 @@ TODO: Explain the second visualization
 
 <div>
   <svg id="force_graph"></svg>
+  <span id="force_graph_text">Simulation running</span>
 </div>
