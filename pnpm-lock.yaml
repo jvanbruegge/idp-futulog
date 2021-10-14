@@ -7,7 +7,6 @@ specifiers:
   '@types/marked': ^3.0.1
   '@types/remarkable': ^2.0.3
   d3: ^7.1.1
-  d3-force: ^3.0.0
   dayjs: ^1.10.7
   markdown-toc: ^1.2.0
   marked: ^3.0.4
@@ -21,7 +20,6 @@ specifiers:
 
 dependencies:
   d3: 7.1.1
-  d3-force: 3.0.0
   dayjs: 1.10.7
 
 devDependencies:
