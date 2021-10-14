@@ -157,4 +157,10 @@ function draw(data: Data) {
     document.querySelector('#force_graph_text')!.textContent =
       'Simulation finished';
   });
+
+  setTimeout(() => {
+    simulation.stop();
+    document.querySelector('#force_graph_text')!.textContent =
+      'Simulation finished';
+  }, 90000);
 }
