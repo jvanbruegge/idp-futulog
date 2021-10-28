@@ -32,7 +32,9 @@ The team varied over time as client projects required designers and developers a
 
 The office management and human care teams of Germany and later on also Finland were acting as the stakeholders, giving feedback and requirements for the project.
 
-## Minimum Viable Product - The user interface
+## Minimum Viable Product
+
+### User interface
 
 Most of the work was in the user interface. The design team started with user research and interviews in order to make futuLog as intuitive as possible. At the same time, the frontend team started setting up the development environment, decided to use [React](https://reactjs.org/) with [material-ui](https://mui.com/) as a component library for the project. As soon as the first few main pages had a complete design, the team implemented them in the codebase.
 
@@ -56,15 +58,13 @@ By clicking on one of the dates, the user can book a spot in advance. This booki
 
 ![Screenshot of the detailed planning view](./static/planning_detail.png)
 
-import Network.Wai.Handler.Warp
-
-# Minimum Viable Product - Administration
+### Administration
 
 To make the development faster, the initial version that was deployed internally did not have an administration interface. However, the backend provided an API that could be used by a developer in case a positive case occured before this feature is ready.
 
 ![Screenshot of the API Swagger documentation](./static/admin_swagger.png)
 
-## Minimum Viable Product - Backend
+### Backend
 
 The backend of futuLog is written in [Haskell](https://www.haskell.org/). Haskell is a pure functional programming language with an excellent type system and very good support for concurrency. The public API uses the [servant](https://github.com/haskell-servant/servant) library which allows to specify the whole API as a type and get the routing, parsing and error handling for free. For example this snippet defines a complete echo API, that expects a JSON object with a message as POST request body to the `/echo` URL and returns that message as plain text back:
 
@@ -92,6 +92,20 @@ To save all the registrations and to make the query for contacts easy, PostgreSQ
 For the MVP, luckily we did not have to take care about authenticating users. The Futurice IT team provides the company with a platform called Playswarm, that allows easy deployment as a [Docker](https://www.docker.com/) container, can provide a PostgreSQL database that already has backups configured and most importantly provides a reverse proxy that takes care of authenticating users with the login.futurice.com service. The whole application architecture for the MVP looks like this:
 
 ![Architecture diagram of the MVP](./static/architecture_playswarm.png)
+
+## Further development
+
+After the deployment of the MVP in June 2020, futuLog was improved. Most of the improvements that are visible to the outside were to enable us to Open Source the application. The goal was to make futuLog independent of Futurice-internal infrastructure and that none of the day to day usage should require hand-holding by a developer.
+
+### Okta migration
+
+While the backend and the database are already available for anyone to self-host, the big issue was the authentication which was tied to the login.futurice.com infrastructure. In addition to our effords to Open Source futuLog, Futurice itself was moving from that login infrastructure to a new identity provider - Okta. While a migration of playswarm to use the new Okta service was planned, it did not have a concrete timeframe at the time. Okta, like many other identity providers, can authenticate users with multiple open protocols, one of with is **OpenID Connect** (OIDC). By implementing this in the backend, a user of the Open Source version could simply connect their own internal identity provider for futuLog. After learning how OIDC words and implementing it in the backend, the architecture now does not need the proxy any more and can be deployed anywhere where a docker container can run:
+
+![Flow diagram of the OIDC login flow](./static/oidc.png)
+
+After implementing this feature, I presented my learnings internally in the company, the recording of which is available on YouTube now:
+
+<iframe height="465" src="https://www.youtube-nocookie.com/embed/wk9v5upj_7I" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
 
 ## Impact
 
@@ -137,9 +151,7 @@ TODO: Explain what what the diagrams say
 
 TODO: Explain the second visualization
 
-<!--
 <div>
   <svg id="force_graph"></svg>
   <span id="force_graph_text">Simulation running</span>
 </div>
--->

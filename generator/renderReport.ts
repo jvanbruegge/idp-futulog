@@ -53,7 +53,7 @@ export function renderReport(): void {
       p {
         text-align: justify;
       }
-      img {
+      img, iframe {
         width: 90%;
         margin: 1em auto;
         display: block;
@@ -67,7 +67,7 @@ export function renderReport(): void {
       ${content}
     </main>
     <script type="module" src="./page/pairs_bars.ts"></script>
-    <script type="module" src="./page/force_graph.ts"></script>
+    <!--<script type="module" src="./page/force_graph.ts"></script>-->
   </body>
 </html>`;
 
@@ -78,7 +78,7 @@ export function renderReport(): void {
   const rendered = mkDocument(
     md.render(
       toc.insert(markdown, {
-        bullets: '1.',
+        //bullets: '1.',
       })
     )
   ).replace(
