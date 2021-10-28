@@ -18,6 +18,44 @@ These concrete problems formed the requirements for the development of an applic
 
 The application that was developed in turn was later called **futuLog**.
 
+## The team
+
+The team varied over time as client projects required designers and developers as staff. The biggest contributors to futuLog were:
+
+- Beatrice Rachello (Design)
+- Simon Messmer (Design)
+- Alex Seidler (Frontend Development)
+- Egor Sorokin (Frontend Development)
+- Pierre Hedkvist (Frontend Development)
+- Viktorija Valsoe (Frontend Development)
+- Jan van Brügge (Me -- Backend Development, later some Frontend Development)
+
+The office management and human care teams of Germany and later on also Finland were acting as the stakeholders, giving feedback and requirements for the project.
+
+## Minimum Viable Product - The user interface
+
+Most of the work was in the user interface. The design team started with user research and interviews in order to make futuLog as intuitive as possible. At the same time, the frontend team started setting up the development environment, decided to use [React](https://reactjs.org/) with [material-ui](https://mui.com/) as a component library for the project. As soon as the first few main pages had a complete design, the team implemented them in the codebase.
+
+When a new user first opens futuLog, they are redirected to the welcome screen where they can select their usual office. This will be the office they sign in by default:
+
+![Screenshot of the welcome page of futuLog](./static/welcome.png)
+
+After clicking "start", or when visiting futuLog the next time, the user starts at the main view:
+
+![Screenshot of the main page of futuLog](./static/main.png)
+
+In this main view the user can immediately book a spot in their default office by clicking the big "Office" button. Once they do, they have the option to confirm their stay. This is meant to be done once you really are in the office and it will lock in that choice:
+
+![Screenshot of the confirm page](./static/confirm.png)
+
+With either the "Planning" button in the top bar or the "Planning" button at the bottom, the user gets to the planning view which shows their choices for the next few days:
+
+![Screenshot of the planning page](./static/planning.png)
+
+By clicking on one of the dates, the user can book a spot in advance. This booking view shows the user how many spots are still left in the office and who booked those spots. It also allows them to change the office they want to reserve a spot in:
+
+![Screenshot of the detailed planning view](./static/planning_detail.png)
+
 ## Impact
 
 TODO: Explain what what the diagrams say

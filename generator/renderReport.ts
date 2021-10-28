@@ -35,6 +35,12 @@ export function renderReport(): void {
       p {
         text-align: justify;
       }
+      img {
+        width: 90%;
+        margin: 1em auto;
+        display: block;
+        border: 1px solid gray;
+      }
     </style>
   </head>
   <body>

@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "@parcel/config-default": "^2.0.0-rc.0",
+    "@parcel/transformer-image": "2.0.0-rc.0",
     "@types/d3": "^7.0.0",
     "@types/d3-force": "^3.0.3",
     "@types/marked": "^3.0.1",
