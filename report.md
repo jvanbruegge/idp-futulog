@@ -56,6 +56,43 @@ By clicking on one of the dates, the user can book a spot in advance. This booki
 
 ![Screenshot of the detailed planning view](./static/planning_detail.png)
 
+import Network.Wai.Handler.Warp
+
+# Minimum Viable Product - Administration
+
+To make the development faster, the initial version that was deployed internally did not have an administration interface. However, the backend provided an API that could be used by a developer in case a positive case occured before this feature is ready.
+
+![Screenshot of the API Swagger documentation](./static/admin_swagger.png)
+
+## Minimum Viable Product - Backend
+
+The backend of futuLog is written in [Haskell](https://www.haskell.org/). Haskell is a pure functional programming language with an excellent type system and very good support for concurrency. The public API uses the [servant](https://github.com/haskell-servant/servant) library which allows to specify the whole API as a type and get the routing, parsing and error handling for free. For example this snippet defines a complete echo API, that expects a JSON object with a message as POST request body to the `/echo` URL and returns that message as plain text back:
+
+```haskell
+import Aeson
+import Data.Proxy
+import Servant.API
+import Network.Wai.Handler.Warp
+
+data Message = MkMessage { msg :: String }
+  deriving (Generic, FromJSON)
+
+type EchoAPI = "echo" :> ReqBody '[JSON] Message :> Post '[PlainText] String
+
+handler :: Server EchoAPI
+handler messageObj = pure (msg messageObj)
+
+main = run 8000 (serve (Proxy @EchoAPI) handler)
+```
+
+In case the user would send `{ "mssg": "Hello World" }` (note the typo in the key), servant would automatically return an appropriate error. Servant was chosen because of this. It allows the developer to focus on the application logic and not on the communication with the outside world.
+
+To save all the registrations and to make the query for contacts easy, PostgreSQL was chosen as a database. It is a very mature, open source, easy to use, relational database that enable the developer to do complex queries with SQL. To use PostgreSQL from Haskell, the [postgresql-simple](https://hackage.haskell.org/package/postgresql-simple) library was chosen.
+
+For the MVP, luckily we did not have to take care about authenticating users. The Futurice IT team provides the company with a platform called Playswarm, that allows easy deployment as a [Docker](https://www.docker.com/) container, can provide a PostgreSQL database that already has backups configured and most importantly provides a reverse proxy that takes care of authenticating users with the login.futurice.com service. The whole application architecture for the MVP looks like this:
+
+![Architecture diagram of the MVP](./static/architecture_playswarm.png)
+
 ## Impact
 
 TODO: Explain what what the diagrams say
@@ -100,7 +137,9 @@ TODO: Explain what what the diagrams say
 
 TODO: Explain the second visualization
 
+<!--
 <div>
   <svg id="force_graph"></svg>
   <span id="force_graph_text">Simulation running</span>
 </div>
+-->
