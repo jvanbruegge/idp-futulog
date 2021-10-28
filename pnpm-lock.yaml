@@ -9,8 +9,8 @@ specifiers:
   '@types/remarkable': ^2.0.3
   d3: ^7.1.1
   dayjs: ^1.10.7
+  highlight.js: ^11.3.1
   markdown-toc: ^1.2.0
-  marked: ^3.0.4
   parcel: ^2.0.0-rc.0
   parcel-reporter-static-files-copy: ^1.3.0
   prettier: ^2.4.1
@@ -30,8 +30,8 @@ devDependencies:
   '@types/d3-force': 3.0.3
   '@types/marked': 3.0.1
   '@types/remarkable': 2.0.3
+  highlight.js: 11.3.1
   markdown-toc: 1.2.0
-  marked: 3.0.4
   parcel: 2.0.0-rc.0
   parcel-reporter-static-files-copy: 1.3.0
   prettier: 2.4.1
@@ -3638,6 +3638,11 @@ packages:
     resolution: {integrity: sha512-yR5lWvNz7c85OhVAEAeFhVCc/GV4C30Fjzc/rCP0aCWzc1UUOPUk55dK/qdwTZHBvMZo+eZ2jpk62ndX/xMFlg==}
     dev: true
 
+  /highlight.js/11.3.1:
+    resolution: {integrity: sha512-PUhCRnPjLtiLHZAQ5A/Dt5F8cWZeMyj9KRsACsWT+OD6OP0x6dp5OmT5jdx0JgEyPxPZZIPQpRN2TciUT7occw==}
+    engines: {node: '>=12.0.0'}
+    dev: true
+
   /highlight.js/9.18.5:
     resolution: {integrity: sha512-a5bFyofd/BHCX52/8i8uJkjr9DYwXIPnM/plwI6W7ezItLGqzt7X2G2nXuYSfsIJdkwwj/g9DG1LkcGJI/dDoA==}
     deprecated: Support has ended for 9.x series. Upgrade to @latest
@@ -4413,12 +4418,6 @@ packages:
       remarkable: 1.7.4
       repeat-string: 1.6.1
       strip-color: 0.1.0
-    dev: true
-
-  /marked/3.0.4:
-    resolution: {integrity: sha512-jBo8AOayNaEcvBhNobg6/BLhdsK3NvnKWJg33MAAPbvTWiG4QBn9gpW1+7RssrKu4K1dKlN+0goVQwV41xEfOA==}
-    engines: {node: '>= 12'}
-    hasBin: true
     dev: true
 
   /math-random/1.0.4:

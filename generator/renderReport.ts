@@ -1,12 +1,30 @@
 import { Remarkable } from 'remarkable';
 const toc = require('markdown-toc');
 const { remarkablePluginHeadingId } = require('remarkable-plugin-heading-id');
+import hljs from 'highlight.js';
 import { readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
 import { width, height, margin } from '../page/settings';
 
+hljs.configure({
+  classPrefix: '',
+});
+
 const md = new Remarkable({
   html: true,
+  highlight: (str, lang) => {
+    if (lang && hljs.getLanguage(lang)) {
+      try {
+        return hljs.highlight(lang, str).value;
+      } catch (err) {}
+    }
+
+    try {
+      return hljs.highlightAuto(str).value;
+    } catch (err) {}
+
+    return '';
+  },
 }).use(remarkablePluginHeadingId, {
   createId: (_: number, str: string) => str.toLowerCase(),
 });
@@ -42,6 +60,7 @@ export function renderReport(): void {
         border: 1px solid gray;
       }
     </style>
+    <link rel="stylesheet" href="./css/highlight.css">
   </head>
   <body>
     <main>
