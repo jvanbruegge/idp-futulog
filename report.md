@@ -97,6 +97,18 @@ For the MVP, luckily we did not have to take care about authenticating users. Th
 
 After the deployment of the MVP in June 2020, futuLog was improved. Most of the improvements that are visible to the outside were to enable us to Open Source the application. The goal was to make futuLog independent of Futurice-internal infrastructure and that none of the day to day usage should require hand-holding by a developer.
 
+### Administration interface
+
+Shortly after the initial release, we provided a user interface to see the list of people that were either in the office on a given day or the list of people that were in contact with a given person in a given timeframe. These two views are only accessible to administrators, which at that point had to be added to a config file. This meant that adding new administrators required a developer, but after that, most of the day to day work could be done without one. The first view looks like this:
+
+![Screenshot of the office tracking page](./static/tracking_office.png)
+
+The second view looks like this:
+
+![Screenshot of the people tracking page](./static/tracking_people.png)
+
+The data from both of these views can be exported to CSV, which in turn can be imported directly into Excel. So in case of a positive COVID-19 case, the administration team can download the data and easily contact all the people from the list.
+
 ### Okta migration
 
 While the backend and the database are already available for anyone to self-host, the big issue was the authentication which was tied to the login.futurice.com infrastructure. In addition to our effords to Open Source futuLog, Futurice itself was moving from that login infrastructure to a new identity provider - Okta. While a migration of playswarm to use the new Okta service was planned, it did not have a concrete timeframe at the time. Okta, like many other identity providers, can authenticate users with multiple open protocols, one of with is **OpenID Connect** (OIDC). By implementing this in the backend, a user of the Open Source version could simply connect their own internal identity provider for futuLog. After learning how OIDC words and implementing it in the backend, the architecture now does not need the proxy any more and can be deployed anywhere where a docker container can run:
@@ -107,9 +119,27 @@ After implementing this feature, I presented my learnings internally in the comp
 
 <iframe height="465" src="https://www.youtube-nocookie.com/embed/wk9v5upj_7I" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
 
+### Removing the need for developers
+
+After adding the initial administration interface there were only two tasks that the administration team was not able to do by themselves. The first one was changing the maximum number of people that were allowed in the office at any given day, the second one was adding and removing other administratiors. Before Open Sourcing futuLog we wanted to fix these two issues. The result was two new tabs in the administration section where offices and administrators can be defined.
+
+Office tab in read mode:
+![Screenshot of the admin office page in read mode](./static/admin_office_read.png)
+
+Office tab in edit mode:
+![Screenshot of the admin office page in edit mode](./static/admin_office_edit.png)
+
+The page to add and remove administrators works in just the same way as the office tab.
+
+### Open Sourcing futuLog
+
+At that point, futuLog was completely decoupled from the internal infrastructure, did not need any developers or operators beyond initial setup and it was easy to use and mature after over a year of continued usage inside Futurice. At this point we published [the project on GitHub](https://github.com/futurice/futuLog) under the permissive MIT license, and announced it with [a blog post](https://futurice.com/blog/open-sourcing-futulog).
+
 ## Impact
 
-TODO: Explain what what the diagrams say
+To properly assess the impact of futuLog, the collected raw data was processed and analysed. For this, this very report is a static HTML page that fetches that processed and anonymous data and uses client side JavaScript to visualize the data and make it interactive. In total, there were **$$numPeople$$** unique people that logged into one of the 5 offices at least once. Those people together have booked a slot in the office **$$numRegistrations$$** times.
+
+The first analysis is how often individual pairs of people have met in the office.
 
 <style>
 #pairs_bars_date {
@@ -154,4 +184,5 @@ TODO: Explain the second visualization
 <div>
   <svg id="force_graph"></svg>
   <span id="force_graph_text">Simulation running</span>
+</div>
 </div>

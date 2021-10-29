@@ -31,7 +31,10 @@ const md = new Remarkable({
 
 const maxWidth = width + margin.left + margin.right + 20;
 
-export function renderReport(): void {
+export function renderReport(
+  numPeople: number,
+  numRegistrations: number
+): void {
   const mkDocument = (content: string) =>
     `<!DOCTYPE html>
 <html>
@@ -73,7 +76,9 @@ export function renderReport(): void {
 
   const markdown = readFileSync(join(process.cwd(), 'report.md'), {
     encoding: 'utf-8',
-  });
+  })
+    .replace(/\$\$numPeople\$\$/g, `${numPeople}`)
+    .replace(/\$\$numRegistrations\$\$/g, `${numRegistrations}`);
 
   const rendered = mkDocument(
     md.render(

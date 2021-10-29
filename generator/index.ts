@@ -3,8 +3,6 @@ import * as dayjs from 'dayjs';
 import { join } from 'path';
 import { renderReport } from './renderReport';
 
-renderReport();
-
 const path = join(process.cwd(), 'static');
 if (!existsSync(path)) {
   mkdirSync(path);
@@ -110,6 +108,8 @@ const people = data
 
 console.log('numPeople', people.size);
 console.log('numDates', Object.keys(sorted).length);
+
+renderReport(people.size, data.length);
 
 pairsBars();
 forceGraph();
