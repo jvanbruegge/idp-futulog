@@ -16,7 +16,7 @@ type Sorted = {
   };
 };
 
-console.log("Reading dataset");
+console.log('Reading dataset');
 const data = readFileSync(join(__dirname, 'registrations.csv'), {
   encoding: 'utf-8',
 })
@@ -48,7 +48,7 @@ for (const d of data) {
   y.add(d.name);
 }
 
-console.log("Running data aggregation");
+console.log('Running data aggregation');
 let dates = [data[0].date];
 for (const { date } of data) {
   let last = dates[dates.length - 1];
@@ -111,9 +111,18 @@ const people = data
 renderReport(people.size, data.length, Object.keys(sorted).length);
 
 pairsBars();
-forceGraph();
+forceGraph(
+  ['Helsinki', 'Tampere', 'Munich', 'Berlin', 'Stuttgart'],
+  'force_graph.json'
+);
+forceGraph(
+  ['Munich', 'Berlin', 'Stuttgart'],
+  'force_graph_germany.json',
+  false
+);
+forceGraph(['Helsinki', 'Tampere'], 'force_graph_finland.json', false);
 
-function forceGraph() {
+function forceGraph(offices: string[], filename: string, all = true) {
   const data = connections[dates[dates.length - 1]];
   let ids = new Set<number>();
   const mapping = [...people.keys()].reduce((acc, curr) => {
@@ -124,26 +133,33 @@ function forceGraph() {
     return acc;
   }, new Map<string, number>());
 
+  const nodes = new Set<number>();
+
   let newData = {};
   for (const [office, x] of Object.entries(data)) {
+    if (offices.indexOf(office) === -1) continue;
     for (const [p1, p2s] of Object.entries(x)) {
-      let y = newData[mapping.get(p1)] ?? {};
-      newData[mapping.get(p1)] = y;
+      const pp1 = mapping.get(p1);
+      let y = newData[pp1] ?? {};
+      newData[pp1] = y;
       for (const [p2, n] of Object.entries(p2s)) {
-        let obj = newData[mapping.get(p1)][mapping.get(p2)] ?? {};
-        newData[mapping.get(p1)][mapping.get(p2)] = obj;
+        const pp2 = mapping.get(p2);
+        let obj = newData[pp1][pp2] ?? {};
+        newData[pp1][pp2] = obj;
+        nodes.add(pp1);
+        nodes.add(pp2);
         obj[office] = n;
       }
     }
   }
 
   const result = {
-    nodes: [...mapping.values()],
+    nodes: all ? [...mapping.values()] : [...nodes.keys()],
     edges: newData,
   };
 
-  console.log('Writing data for force_graph');
-  writeFileSync(join(path, 'force_graph.json'), JSON.stringify(result), {
+  console.log('Writing data for ' + filename);
+  writeFileSync(join(path, filename), JSON.stringify(result), {
     encoding: 'utf-8',
   });
 }

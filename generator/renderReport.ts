@@ -71,7 +71,7 @@ export function renderReport(
       ${content}
     </main>
     <script type="module" src="./page/pairs_bars.ts"></script>
-    <!--<script type="module" src="./page/force_graph.ts"></script>-->
+    <script type="module" src="./page/force_graph.ts"></script>
   </body>
 </html>`;
 
