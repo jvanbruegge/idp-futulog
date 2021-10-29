@@ -137,9 +137,9 @@ At that point, futuLog was completely decoupled from the internal infrastructure
 
 ## Impact
 
-To properly assess the impact of futuLog, the collected raw data was processed and analysed. For this, this very report is a static HTML page that fetches that processed and anonymous data and uses client side JavaScript to visualize the data and make it interactive. In total, there were **$$numPeople$$** unique people that logged into one of the 5 offices at least once. Those people together have booked a slot in the office **$$numRegistrations$$** times.
+To properly assess the impact of futuLog, the collected raw data was processed and analysed. For this, this very report is a static HTML page that fetches that processed and anonymous data and uses client side JavaScript to visualize the data and make it interactive. In total, there were **$$numPeople$$** unique people that logged into one of the 5 offices at least once. Those people together have booked a slot in the office **$$numRegistrations$$** times on **$$numDays$$** different days.
 
-The first analysis is how often individual pairs of people have met in the office.
+The first analysis is how often individual pairs of people have met in the office. In the following visualization, the x-Axis shows how often a unique pair of two people have met in the office, the y-Axis shows how many such pairings exist. "Met" in this context means that they were at the same day in the same office. Looking at the graph we can see that **<span id="pairs_bars_max_y"></span> pairs** of two people have met **only once** in the office, while **<span id="pairs_bars_max_x_y_pairs"></span>** <span id="pairs_bars_have_plural">have</span> met **<span id="pairs_bars_max_x"></span>** times.
 
 <style>
 #pairs_bars_date {
@@ -178,6 +178,8 @@ The first analysis is how often individual pairs of people have met in the offic
   </div>
   <input id="pairs_bars_date" type="range"></input>
 </div>
+
+With the control above it is also possible to see the data per office and over time. Use the slider to see the accumulated date up until the given date or use the "Play" button to see the data as an animation.
 
 TODO: Explain the second visualization
 

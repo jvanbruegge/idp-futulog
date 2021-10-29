@@ -16,6 +16,7 @@ type Sorted = {
   };
 };
 
+console.log("Reading dataset");
 const data = readFileSync(join(__dirname, 'registrations.csv'), {
   encoding: 'utf-8',
 })
@@ -47,6 +48,7 @@ for (const d of data) {
   y.add(d.name);
 }
 
+console.log("Running data aggregation");
 let dates = [data[0].date];
 for (const { date } of data) {
   let last = dates[dates.length - 1];
@@ -106,10 +108,7 @@ const people = data
   .map(x => x.name)
   .reduce((acc, curr) => acc.add(curr), new Set<string>());
 
-console.log('numPeople', people.size);
-console.log('numDates', Object.keys(sorted).length);
-
-renderReport(people.size, data.length);
+renderReport(people.size, data.length, Object.keys(sorted).length);
 
 pairsBars();
 forceGraph();

@@ -33,7 +33,8 @@ const maxWidth = width + margin.left + margin.right + 20;
 
 export function renderReport(
   numPeople: number,
-  numRegistrations: number
+  numRegistrations: number,
+  numDays: number
 ): void {
   const mkDocument = (content: string) =>
     `<!DOCTYPE html>
@@ -78,7 +79,8 @@ export function renderReport(
     encoding: 'utf-8',
   })
     .replace(/\$\$numPeople\$\$/g, `${numPeople}`)
-    .replace(/\$\$numRegistrations\$\$/g, `${numRegistrations}`);
+    .replace(/\$\$numRegistrations\$\$/g, `${numRegistrations}`)
+    .replace(/\$\$numDays\$\$/g, `${numDays}`);
 
   const rendered = mkDocument(
     md.render(

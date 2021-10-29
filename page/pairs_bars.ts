@@ -100,6 +100,15 @@ function init(data: Data) {
   });
 
   renderHistogram(dates[n]);
+
+  document.querySelector('#pairs_bars_max_y')!.textContent = `${last.maxY}`;
+  const numPeople = combineDate(last, offices)[last.maxX];
+  document.querySelector('#pairs_bars_max_x_y_pairs')!.textContent =
+    numPeople + ' ' + (numPeople === 1 ? 'pair' : 'pairs');
+  document.querySelector('#pairs_bars_max_x')!.textContent = `${last.maxX}`;
+  if (numPeople === 1) {
+    document.querySelector('#pairs_bars_have_plural')!.textContent = 'has';
+  }
 }
 
 function makeRenderHistogram(
@@ -173,14 +182,7 @@ function makeRenderHistogram(
 
     const barWidth = width / maxX - 2;
 
-    let combined = {};
-
-    for (const o of offices) {
-      if (!data[date][o]) continue;
-      for (const [x, y] of Object.entries(data[date][o])) {
-        combined[x] = (combined[x] ?? 0) + y;
-      }
-    }
+    const combined = combineDate(data[date], offices);
 
     const arr = Object.entries(combined).map(([k, v]) => ({
       x: parseInt(k),
@@ -198,4 +200,16 @@ function makeRenderHistogram(
       .attr('width', barWidth)
       .attr('height', d => height - y(d.y));
   };
+}
+
+function combineDate(data: DataDate, offices: Office[]): any {
+  let combined = {};
+
+  for (const o of offices) {
+    if (!data[o]) continue;
+    for (const [x, y] of Object.entries(data[o])) {
+      combined[x] = (combined[x] ?? 0) + y;
+    }
+  }
+  return combined;
 }
