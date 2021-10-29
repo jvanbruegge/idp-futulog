@@ -6,9 +6,9 @@
 
 ## Introduction
 
-Due to the COVID-19 pandemic, in the first half of 2020, Futurice had all employees work from home. As the restrictions were partly lifted and some people needed material or equipment from the office, a system had to be put in place to trace contracts. The german government required that in case of a positive COVID-19 test, all other employees that were in contact with the positive individual need to be contacted in order to be tested themselves.
+Due to the COVID-19 pandemic, in the first half of 2020, Futurice had all employees work from home. As the restrictions were partly lifted and some people needed material or equipment from the office, a system had to be put in place to trace contracts. The German government required that in case of a positive COVID-19 test, all other employees that were in contact with the positive individual need to be contacted in order to be tested themselves.
 
-At first, this was accomplished with an Excel spreadsheet that everyone could write to. However, this approach quickly showed severe limitations. It was hard hard to use, especially on mobile devices, e.g. it was very easy to accidentaly delete other cells or be off by one column and sign in as another employee. As a result of that, only about 50% of the people that went to the office actually signed into the sheet. Additionally there were some privacy concerns. With the spreadsheet, all historical data was collected for everyone to see, so if anyone was aware that there had been a positive case at a certain date, they could just look up the date and guess who was the person in question.
+At first, this was accomplished with an Excel spreadsheet that everyone could write to. However, this approach quickly showed severe limitations. It was hard hard to use, especially on mobile devices, e.g. it was very easy to accidentally delete other cells or be off by one column and sign in as another employee. As a result of that, only about 50% of the people that went to the office actually signed into the sheet. Additionally there were some privacy concerns. With the spreadsheet, all historical data was collected for everyone to see, so if anyone was aware that there had been a positive case at a certain date, they could just look up the date and guess who was the person in question.
 
 These concrete problems formed the requirements for the development of an application to do the tracing:
 
@@ -60,7 +60,7 @@ By clicking on one of the dates, the user can book a spot in advance. This booki
 
 ### Administration
 
-To make the development faster, the initial version that was deployed internally did not have an administration interface. However, the backend provided an API that could be used by a developer in case a positive case occured before this feature is ready.
+To make the development faster, the initial version that was deployed internally did not have an administration interface. However, the backend provided an API that could be used by a developer in case a positive case occurred before this feature is ready.
 
 ![Screenshot of the API Swagger documentation](./static/admin_swagger.png)
 
@@ -111,17 +111,17 @@ The data from both of these views can be exported to CSV, which in turn can be i
 
 ### Okta migration
 
-While the backend and the database are already available for anyone to self-host, the big issue was the authentication which was tied to the login.futurice.com infrastructure. In addition to our effords to Open Source futuLog, Futurice itself was moving from that login infrastructure to a new identity provider - Okta. While a migration of playswarm to use the new Okta service was planned, it did not have a concrete timeframe at the time. Okta, like many other identity providers, can authenticate users with multiple open protocols, one of with is **OpenID Connect** (OIDC). By implementing this in the backend, a user of the Open Source version could simply connect their own internal identity provider for futuLog. After learning how OIDC words and implementing it in the backend, the architecture now does not need the proxy any more and can be deployed anywhere where a docker container can run:
+While the backend and the database are already available for anyone to self-host, the big issue was the authentication which was tied to the login.futurice.com infrastructure. In addition to our effort to Open Source futuLog, Futurice itself was moving from that login infrastructure to a new identity provider - Okta. While a migration of Playswarm to use the new Okta service was planned, it did not have a concrete timeframe at the time. Okta, like many other identity providers, can authenticate users with multiple open protocols, one of with is **OpenID Connect** (OIDC). By implementing this in the backend, a user of the Open Source version could simply connect their own internal identity provider for futuLog. After learning how OIDC words and implementing it in the backend, the architecture now does not need the proxy any more and can be deployed anywhere where a docker container can run:
 
 ![Flow diagram of the OIDC login flow](./static/oidc.png)
 
-After implementing this feature, I presented my learnings internally in the company, the recording of which is available on YouTube now:
+After implementing this feature, I presented my learning internally in the company, the recording of which is available on YouTube now:
 
 <iframe height="465" src="https://www.youtube-nocookie.com/embed/wk9v5upj_7I" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
 
 ### Removing the need for developers
 
-After adding the initial administration interface there were only two tasks that the administration team was not able to do by themselves. The first one was changing the maximum number of people that were allowed in the office at any given day, the second one was adding and removing other administratiors. Before Open Sourcing futuLog we wanted to fix these two issues. The result was two new tabs in the administration section where offices and administrators can be defined.
+After adding the initial administration interface there were only two tasks that the administration team was not able to do by themselves. The first one was changing the maximum number of people that were allowed in the office at any given day, the second one was adding and removing other administrators. Before Open Sourcing futuLog we wanted to fix these two issues. The result was two new tabs in the administration section where offices and administrators can be defined.
 
 Office tab in read mode:
 ![Screenshot of the admin office page in read mode](./static/admin_office_read.png)
@@ -137,7 +137,7 @@ At that point, futuLog was completely decoupled from the internal infrastructure
 
 ## Impact
 
-To properly assess the impact of futuLog, the collected raw data was processed and analysed. For this, this very report is a static HTML page that fetches that processed and anonymous data and uses client side JavaScript to visualize the data and make it interactive. In total, there were **$$numPeople$$** unique people that logged into one of the 5 offices at least once. Those people together have booked a slot in the office **$$numRegistrations$$** times on **$$numDays$$** different days.
+To properly assess the impact of futuLog, the collected raw data was processed and analyzed. For this, this very report is a static HTML page that fetches that processed and anonymous data and uses client side JavaScript to visualize the data and make it interactive. In total, there were **$$numPeople$$** unique people that logged into one of the 5 offices at least once. Those people together have booked a slot in the office **$$numRegistrations$$** times on **$$numDays$$** different days.
 
 ### Pairings of people
 
@@ -185,7 +185,7 @@ With the control above it is also possible to see the data per office and over t
 
 ### Inter-office contacts
 
-To see how the different office are interconnected or how seperate they are, a graph plot was chosen. Every red dot in the visualization is a person. A line between two persons means that those two persons have met at least once in the office. The color of the line says in which office the two have met the most:
+To see how the different office are interconnected or how separate they are, a graph plot was chosen. Every red dot in the visualization is a person. A line between two persons means that those two persons have met at least once in the office. The color of the line says in which office the two have met the most:
 
 - Blue: Helsinki
 - Green: Tampere
@@ -198,7 +198,7 @@ To see how the different office are interconnected or how seperate they are, a g
   <svg id="force_graph"></svg>
 </div>
 
-As the big Finnish offices distord the data a bit, here is the same data, but only with the three German offices:
+As the big Finnish offices distort the data a bit, here is the same data, but only with the three German offices:
 
 <div>
   <em id="force_graph_germany_text">Waiting for first simulation to finish before starting</em>
@@ -211,3 +211,7 @@ And for completeness, with only the Finnish offices:
   <em id="force_graph_finland_text">Waiting for first simulation to finish before starting</em>
   <svg id="force_graph_finland"></svg>
 </div>
+
+## Conclusion
+
+FutuLog was a really interesting project to build. I had the chance to work with my favorite (backend) tech stack and got to work in a multi-disciplinary team. Now, after over a year of tweaking and after analyzing the results, I am quite happy with the impact that our work had on the company and the colleagues. Also, from a learning perspective the project was great, as I had not touched authentication protocols before and had access to a few people inside Futurice that could give me some pointers.
