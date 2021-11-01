@@ -50,6 +50,7 @@ export function renderReport(
       }
       main {
         width: ${maxWidth}px;
+        margin: 0 auto;
       }
       h1 {
         text-align: center;
