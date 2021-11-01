@@ -94,7 +94,7 @@ function init(data: Data) {
         slider.value = `${next}`;
         span.textContent = dates[next];
         renderHistogram(dates[next]);
-      }, 150);
+      }, 50);
       button.textContent = 'Pause';
     }
   });

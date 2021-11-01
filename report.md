@@ -137,14 +137,14 @@ At that point, futuLog was completely decoupled from the internal infrastructure
 
 ## Impact
 
-To properly assess the impact of futuLog, the collected raw data was processed and analyzed. For this, this very report is a static HTML page that fetches that processed and anonymous data and uses client side JavaScript to visualize the data and make it interactive. In total, there were **$$numPeople$$** unique people that logged into one of the 5 offices at least once. Those people together have booked a slot in the office **$$numRegistrations$$** times on **$$numDays$$** different days.
+To properly assess the impact of futuLog, the collected raw data was processed and analyzed. For this, this very report is a static HTML page that fetches that processed and anonymous data and uses client side JavaScript to visualize the data and make it interactive. In total, there were **$$numPeople$$** unique people that logged into one of the 5 offices at least once. Those people together have booked a slot in the office **$$numRegistrations$$** times.
 
 ### Pairings of people
 
 The first analysis is how often individual pairs of people have met in the office. In the following visualization, the x-Axis shows how often a unique pair of two people have met in the office, the y-Axis shows how many such pairings exist (note the logarithmic scale). "Met" in this context means that they were at the same day in the same office. Looking at the graph we can see that **<span id="pairs_bars_max_y"></span> pairs** of two people have met **only once** in the office, while **<span id="pairs_bars_max_x_y_pairs"></span>** <span id="pairs_bars_have_plural">have</span> met **<span id="pairs_bars_max_x"></span>** times.
 
 <style>
-#pairs_bars_date {
+input[type="range"] {
   width: 100%;
 }
 .bar {
@@ -210,6 +210,71 @@ And for completeness, with only the Finnish offices:
 <div>
   <em id="force_graph_finland_text">Waiting for first simulation to finish before starting</em>
   <svg id="force_graph_finland"></svg>
+</div>
+
+### Bookings per weekday
+
+If the data is broken down per day of the week, then one can see that Wednesday is the day where the most people are usually in the office. This is a bit surprising because usually team or office events tend to happen on Fridays at Futurice, so I expected Fridays to have the most visitors. The controls below the visualization can be used to toggle individual offices as well as switch between average, median and maximum number of people in the office at the given weekday. The "Play" button and the slider can show the data animated over time. As in the last graph the colors mean:
+
+- Blue: Helsinki
+- Green: Tampere
+- Red: Munich
+- Gray: Berlin
+- Violet: Stuttgart
+
+<style>
+.container {
+  display: grid;
+  grid: auto / auto auto;
+}
+</style>
+
+<div>
+  <svg id="weekdays"></svg>
+  <div class="line">
+    <label for="weekdays_date">Date: <span id="weekdays_value"></span></label>
+    <button id="weekdays_play">Play</button>
+    <div class="container">
+      <div class="offices">
+        <div class="office">
+          <input id="weekdays_Munich" type="checkbox" checked></input>
+          <label for="weekdays_Munich">Munich</label>
+        </div>
+        <div class="office">
+          <input id="weekdays_Berlin" type="checkbox" checked></input>
+          <label for="weekdays_Berlin">Berlin</label>
+        </div>
+        <div class="office">
+          <input id="weekdays_Stuttgart" type="checkbox" checked></input>
+          <label for="weekdays_Stuttgart">Stuttgart</label>
+        </div>
+        <div class="office">
+          <input id="weekdays_Helsinki" type="checkbox" checked></input>
+          <label for="weekdays_Helsinki">Helsinki</label>
+        </div>
+        <div class="office">
+          <input id="weekdays_Tampere" type="checkbox" checked></input>
+          <label for="weekdays_Tampere">Tampere</label>
+        </div>
+      </div>
+      <div class="modes">
+        <div class="mode">
+          <input id="weekdays_average" type="radio" name="mode" value="Average" checked></input>
+          <label for="weekdays_average">Average</label>
+        </div>
+        <div class="mode">
+          <input id="weekdays_median" type="radio" name="mode" value="Median"></input>
+          <label for="weekdays_median">Median</label>
+        </div>
+        <div class="mode">
+          <input id="weekdays_maximum" type="radio" name="mode" value="Maximum"></input>
+          <label for="weekdays_maximum">Maximum</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <input id="weekdays_date" type="range"></input>
+
 </div>
 
 ## Conclusion

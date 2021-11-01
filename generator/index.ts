@@ -1,5 +1,7 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
 import * as dayjs from 'dayjs';
+const weekday = require('dayjs/plugin/weekday');
+dayjs.extend(weekday);
 import { join } from 'path';
 import { renderReport } from './renderReport';
 
@@ -15,6 +17,8 @@ type Sorted = {
     [office: string]: Set<string>;
   };
 };
+
+const offices = ['Berlin', 'Munich', 'Stuttgart', 'Helsinki', 'Tampere'];
 
 console.log('Reading dataset');
 const data = readFileSync(join(__dirname, 'registrations.csv'), {
@@ -121,6 +125,74 @@ forceGraph(
   false
 );
 forceGraph(['Helsinki', 'Tampere'], 'force_graph_finland.json', false);
+
+weekdaysChart();
+
+function weekdaysChart() {
+  let result = {
+    Monday: {},
+    Tuesday: {},
+    Wednesday: {},
+    Thursday: {},
+    Friday: {},
+    maxY: 0,
+    dates: [],
+  };
+
+  for (const date of dates) {
+    const d = (dayjs(date) as any).weekday();
+    if (d > 5 || d === 0) {
+      continue;
+    }
+
+    let day: string;
+    switch (d) {
+      case 1:
+        day = 'Monday';
+        break;
+      case 2:
+        day = 'Tuesday';
+        break;
+      case 3:
+        day = 'Wednesday';
+        break;
+      case 4:
+        day = 'Thursday';
+        break;
+      case 5:
+        day = 'Friday';
+        break;
+    }
+
+    let r = result[day];
+    r.dates ??= [];
+    r.dates.push(date);
+    for (const office of offices) {
+      const people = sorted[date][office];
+      const n = people?.size ?? 0;
+      r[office] ??= [];
+      r[office].push(n);
+    }
+  }
+  let max = 0;
+  for (const day of ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']) {
+    let x = 0;
+    for (const office of offices) {
+      x += result[day][office].reduce((a, c) => (c > a ? c : a), 0);
+    }
+    if (x > max) {
+      max = x;
+    }
+  }
+
+  result.maxY = max;
+  result.dates = dates;
+
+  console.log('Writing data for weekdays');
+  writeFileSync(join(path, 'weekdays.json'), JSON.stringify(result), {
+    encoding: 'utf-8',
+  });
+}
 
 function forceGraph(offices: string[], filename: string, all = true) {
   const data = connections[dates[dates.length - 1]];
