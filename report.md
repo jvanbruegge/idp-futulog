@@ -277,6 +277,10 @@ If the data is broken down per day of the week, then one can see that Wednesday 
 
 </div>
 
+## Relevance of the lecture
+
+As part of the IDP the lecture "Technology and Innovation Management/Marketing" was visited. Especially the latter part was relevant for our internal campaigns to motivate people to use futuLog consistently. We also had regular announcements about new features and bug fixes. Part of this marketing was to hang posters in the offices themselves, so people that come in and forgot to book a spot would be reminded at the door. The former part of the lecture is relevant in the context of our open source efforts. We decided early on that we would want to do this step as other, possibly small, companies could also use the tool and in turn make it better for everyone.
+
 ## Conclusion
 
 FutuLog was a really interesting project to build. I had the chance to work with my favorite (backend) tech stack and got to work in a multi-disciplinary team. Now, after over a year of tweaking and after analyzing the results, I am quite happy with the impact that our work had on the company and the colleagues. Also, from a learning perspective the project was great, as I had not touched authentication protocols before and had access to a few people inside Futurice that could give me some pointers.
